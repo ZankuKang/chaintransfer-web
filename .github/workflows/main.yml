@@ -9,4 +9,6 @@ jobs:
     container:
       image: container-registry.oracle.com/graalvm/native-image:25
     steps:
-      - run: echo "build"
+      - uses: actions/checkout@v4
+      - run: apt-get update && apt-get install -y g++
+      - run: ./gradlew build -Dquarkus.package.type=native -Dquarkus.package.jar.enabled=false
