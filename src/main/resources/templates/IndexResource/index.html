@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Chaintransfer</title>
+</head>
+<body class="relative bg-[url('/Blade_of_the_House_of_Spiders_Ryōshū_Full.webp')]  bg-cover bg-center min-h-screen flex items-center justify-center">
+<div class="absolute inset-0 bg-black/75"></div>
+<div class="relative z-10 flex flex-col items-center gap-6">
+    <h1 class="text-4xl font-bold tracking-tight">Chaintransfer</h1>
+    <p class="text-gray-400">Send files through the chain.</p>
+
+    <input type="file" id="fileToUpload" name="file" style="display:none">
+
+    <button type="button"
+            onclick="document.getElementById('fileToUpload').click()"
+            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold
+                   px-6 py-3 rounded-xl transition-colors cursor-pointer">
+        📦 Choose a file
+    </button>
+    <div id="result" class="text-sm"></div>
+</div>
+<script src="/js/upload.js"></script>
+</body>
+</html>
