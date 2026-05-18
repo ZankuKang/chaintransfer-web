@@ -1,0 +1,12 @@
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: container-registry.oracle.com/graalvm/native-image:25
+    steps:
+      - run: echo "build"
