@@ -57,10 +57,7 @@ jobs:
             -lsillypartner_lib
 
       - name: Build Quarkus native
-        run: ./gradlew build \
-          -Dquarkus.native.enabled=true \
-          -Dquarkus.package.jar.enabled=false \
-          -Djava.library.path=./jni
+        run: ./gradlew build -Dquarkus.native.enabled=true -Dquarkus.package.jar.enabled=false -Djava.library.path=./jni
 
       - uses: actions/upload-artifact@v4
         with:
