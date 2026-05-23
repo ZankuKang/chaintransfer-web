@@ -4,11 +4,65 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-cpp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y g++ cmake
+
+      - name: Build static library
+        run: |
+          cd chaintransfer
+          cmake -B build -DCMAKE_CXX_FLAGS="-fPIC"
+          cmake --build build --target sillypartner_lib
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sillypartner-lib
+          path: chaintransfer/build/libsillypartner_lib.a
+          retention-days: 1
+
+  build-java:
+    needs: build-cpp
     runs-on: ubuntu-latest
     container:
       image: container-registry.oracle.com/graalvm/native-image:25
     steps:
       - uses: actions/checkout@v4
-      - run: apt-get update && apt-get install -y g++
-      - run: ./gradlew build -Dquarkus.package.type=native -Dquarkus.package.jar.enabled=false
+        with:
+          submodules: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: sillypartner-lib
+          path: chaintransfer/build/
+
+      - name: Install g++
+        run: apt-get update && apt-get install -y g++
+
+      - name: Compile JNI shared library
+        run: |
+          g++ -shared -fPIC \
+            -I${JAVA_HOME}/include \
+            -I${JAVA_HOME}/include/linux \
+            -I chaintransfer/include \
+            -o jni/libchaintransferclient.so \
+            jni/chaintransferclient_jni.cpp \
+            -L chaintransfer/build \
+            -lsillypartner_lib
+
+      - name: Build Quarkus native
+        run: ./gradlew build \
+          -Dquarkus.package.type=native \
+          -Dquarkus.package.jar.enabled=false \
+          -Djava.library.path=./jni
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chaintransfer-native
+          path: build/chaintransfer-web
+          retention-days: 7
