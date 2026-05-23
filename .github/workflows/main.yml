@@ -31,7 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: container-registry.oracle.com/graalvm/native-image:25
+      options: --entrypoint /bin/sh
     steps:
+      - name: Install Git and g++
+        run: apt-get update && apt-get install -y git g++
+
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -40,9 +44,6 @@ jobs:
         with:
           name: sillypartner-lib
           path: chaintransfer/build/
-
-      - name: Install g++
-        run: apt-get update && apt-get install -y g++
 
       - name: Compile JNI shared library
         run: |
@@ -64,5 +65,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: chaintransfer-native
-          path: build/chaintransfer-web
+          path: build/chaintransfer-web-*-runner
           retention-days: 7
