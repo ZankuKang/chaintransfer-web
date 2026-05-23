@@ -58,7 +58,7 @@ jobs:
 
       - name: Build Quarkus native
         run: ./gradlew build \
-          -Dquarkus.package.type=native \
+          -Dquarkus.native.enabled=true \
           -Dquarkus.package.jar.enabled=false \
           -Djava.library.path=./jni
 
