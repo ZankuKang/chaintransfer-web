@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package chaintransfer.pay;
+
+option go_package = "chaintransfer-pay/proto";
+option java_package = "com.chaintransfer.grpc";
+option java_outer_classname = "PaymentProto";
+option java_multiple_files = true;
+
+service Payment {
+  rpc ProcessPayment(PaymentRequest) returns (PaymentResponse);
+}
+
+message PaymentRequest {
+  string user_id   = 1;
+  uint64 amount    = 2;
+  string currency  = 3;
+  string nonce     = 4;
+}
+
+message PaymentResponse {
+  string payment_id    = 1;
+  PaymentStatus status = 2;
+  string message       = 3;
+}
+
+enum PaymentStatus {
+  UNKNOWN = 0;
+  SUCCESS = 1;
+  FAILED  = 2;
+  PENDING = 3;
+}

@@ -4,24 +4,33 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <title>Chaintransfer</title>
 </head>
-<body class="relative bg-[url('/background.webp')]  bg-cover bg-center min-h-screen flex items-center justify-center">
-<div class="absolute inset-0 bg-black/75"></div>
+<body class="relative bg-[url('/background.jpg')] bg-cover bg-center min-h-screen flex items-center justify-center">
+<div class="absolute inset-0 bg-black/60"></div>
 <div class="relative z-10 flex flex-col items-center gap-6">
-    <h1 class="text-4xl font-bold tracking-tight">Chaintransfer</h1>
-    <p class="text-gray-400">Send files through the chain.</p>
-
+    <h1 class="text-4xl font-bold tracking-tight text-white">Chaintransfer</h1>
     <input type="file" id="fileToUpload" name="file" style="display:none">
-
     <button type="button"
             onclick="document.getElementById('fileToUpload').click()"
             class="bg-blue-600 hover:bg-blue-500 text-white font-semibold
-                   px-6 py-3 rounded-xl transition-colors cursor-pointer">
-        📦 Choose a file
+                   px-6 py-3 rounded-xl transition-colors cursor-pointer flex items-center gap-2">
+        <i data-lucide="package"></i>
+        Choose a file
     </button>
-    <div id="result" class="text-sm"></div>
+    <button type="button"
+            onclick="handlePayment()"
+            class="bg-yellow-600 hover:bg-yellow-500 text-white font-semibold
+                   px-6 py-3 rounded-xl transition-colors cursor-pointer flex items-center gap-2">
+        <i data-lucide="credit-card"></i>
+        Increase file size limit
+    </button>
+
+    <div id="result" class="text-sm text-white"></div>
 </div>
 <script src="/js/upload.js"></script>
+<script src="/js/payment.js"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>

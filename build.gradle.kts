@@ -19,6 +19,7 @@ dependencies {
     implementation("io.quarkus:quarkus-tls-registry")
     implementation("io.quarkiverse.qute.web:quarkus-qute-web")
     implementation("io.quarkus:quarkus-rest-qute")
+    implementation("io.quarkus:quarkus-grpc")
     testImplementation("io.quarkus:quarkus-junit")
     testImplementation("io.rest-assured:rest-assured")
 }
@@ -41,4 +42,12 @@ tasks.named<io.quarkus.gradle.tasks.QuarkusDev>("quarkusDev") {
         "-Djava.library.path=/home/pere-linux/Projects/chaintransfer-web/jni",
         "--enable-native-access=ALL-UNNAMED"
     )
+
+sourceSets {
+    main {
+        java {
+            srcDir("build/classes/java/quarkus-generated-sources/grpc")
+        }
+    }
+}
 }
